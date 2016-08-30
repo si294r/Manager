@@ -260,7 +260,8 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-3">Roles</label>
                                     <?php
-                                    $arr_roles = ['Billionaire', 'Cloudcode', 'UADashboard', 'PushAdmin'];
+                                    $arr_roles = ['Billionaire', 'Cloudcode', 'UADashboard', 'PushAdmin', 'Manager'];
+                                    sort($arr_roles);
                                     ?>
                                     <div class="col-md-9">
                                         <?php foreach ($arr_roles as $key => $value) { ?>
