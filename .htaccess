@@ -1,0 +1,7 @@
+#<Directory "/var/www/html/PushAdmin">
+    RewriteEngine On
+    RewriteBase "/PushAdmin"
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.php/$1 [L]
+#</Directory>
