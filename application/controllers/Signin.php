@@ -37,10 +37,42 @@ class Signin extends CI_Controller {
     public function get_base_alias() {
         $arr_base_url = explode("/", base_url());
         $base_alias = $arr_base_url[count($arr_base_url) - 2];
-        return $base_alias;        
+        return $base_alias;
     }
+
     public function info() {
         phpinfo();
+    }
+
+    public function change_password() {
+        if (!isset($_SESSION['signin'])) {
+            redirect('signin');
+        }
+        if (isset($_POST['curr_password']) && isset($_POST['new_password']) && isset($_POST['new_password2'])) {
+            if ($_POST['curr_password'] == '') {
+                $data['alert'] = 'Current Password is required.';
+                $data['alert_type'] = 'danger'; // success | info | warning | danger
+            } elseif ($_POST['new_password'] == '') {
+                $data['alert'] = 'New Password is required.';
+                $data['alert_type'] = 'danger'; // success | info | warning | danger
+            } elseif ($_POST['new_password2'] == '') {
+                $data['alert'] = 'Confirm New Password is required.';
+                $data['alert_type'] = 'danger'; // success | info | warning | danger
+            } elseif ($_SESSION['signin']['password'] != md5($_POST['curr_password'])) {
+                $data['alert'] = 'Current Password is invalid.';
+                $data['alert_type'] = 'danger'; // success | info | warning | danger
+            } elseif ($_POST['new_password'] != $_POST['new_password2']) {
+                $data['alert'] = 'New Password confirmation failed.';
+                $data['alert_type'] = 'danger'; // success | info | warning | danger
+            } else {
+                $_SESSION['signin'] = $this->admin->change_password($_SESSION['signin']['_id'], $_POST['new_password']);
+                $data['alert'] = 'Password changed successfully.';
+                $data['alert_type'] = 'success'; // success | info | warning | danger
+            }
+        } else {
+            $data['alert'] = '';
+        }
+        $this->load->view('change_password_view', $data);
     }
 
 }
